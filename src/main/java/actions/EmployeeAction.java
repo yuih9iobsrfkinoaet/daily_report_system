@@ -110,11 +110,33 @@ public class EmployeeAction extends ActionBase{
                //セッションに登録完了のフラッシュメッセージを設定
                putSessionScope(AttributeConst.FLUSH, MessageConst.I_REGISTERED.getMessage());
 
-               //一覧画面にリダイレクト
+               //一覧画面にリダイレクト(indexのビューを呼び出す)
                redirect(ForwardConst.ACT_EMP, ForwardConst.CMD_INDEX);
            }
 
        }
    }
+
+   //従業員情報を表示するメソッド
+   //@throws ServletException
+   //@throws IOException
+   public void show() throws ServletException, IOException {
+
+       //idを条件に従業員データを取得する
+       EmployeeView ev = service.findOne(toNumber(getRequestParam(AttributeConst.EMP_ID)));
+
+       if (ev == null || ev.getDeleteFlag() == AttributeConst.DEL_FLAG_TRUE.getIntegerValue()) {
+
+           //データが取得できなかった、または論理削除されている場合はエラー画面を表示
+           forward(ForwardConst.FW_ERR_UNKNOWN);
+           return;
+       }
+
+       putRequestScope(AttributeConst.EMPLOYEE, ev); //取得した従業員情報
+
+       //詳細画面を表示(showのビューを呼び出す)
+       forward(ForwardConst.FW_EMP_SHOW);
+   }
+
 
 }
