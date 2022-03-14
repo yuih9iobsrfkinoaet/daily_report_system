@@ -10,7 +10,7 @@ import actions.views.EmployeeView;
 import constants.JpaConst;
 import models.Employee;
 import utils.EncryptUtil;
-import validators.EmployeeValidator;
+import models.validators.EmployeeValidator;
 
 
  // 従業員テーブルの操作に関わる処理を行うクラス
